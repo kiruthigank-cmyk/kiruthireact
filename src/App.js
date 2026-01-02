@@ -1,6 +1,136 @@
 import { useState } from "react"
 function App()
 {
+  const [city,setCity]=useState("karur")
+  const [list,setList]=useState("null")
+  const upcity=(event)=>{
+    setCity(event.target.value);
+  }
+  const findweather=()=>{
+    console.log("city name:",city);
+    var api=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=254005526d4a0198f2f3533d9eba5dfc`; 
+    fetch(api)
+    .then((response)=>response.json())
+    .then((data)=>
+      {
+      console.log(data);
+      setList(data)
+    })
+    .catch((err)=>{
+      console.log(""+err);
+      setList(err)
+    })
+  }
+
+  return(
+    <>
+  <h2><center>Fetch - API</center></h2>
+  <h2>Weather Report</h2>
+  <label>Enter City Name</label><input type="text" value={city} onChange={upcity}></input>
+  <br></br>
+  <input type="button" onClick={findweather} value="GetReport"></input>
+  <br></br>
+  {list.cod===200 &&
+  <>
+  <h2>Final Report</h2>
+  <h3>Main Report:{list!==null && list.weather[0].main}</h3>
+  <h3>Description:{list!==null && list.weather[0].description}</h3>
+  <h3>Wind Speed:{list!==null && list.wind.speed}</h3>
+  <h3>Temperature:{list!==null && list.main.temp}</h3>
+  <h3>Humidity:{list!==null && list.main.humidity}</h3>
+  </>
+  }
+  {list.cod==="404" &&
+  <h3>Error Message:{list!==null && list.cod==='404' && list.message}</h3>
+  }
+  </>
+  )
+}
+export default App
+/*import "./App.css"
+function  App()
+{
+  return(
+    <div  id="outer" align="center">
+      <div id="inner">
+      <font  id="savi"size="7" >🗝️</font>
+      <h2>Admin Panel</h2>
+      <input type ="text" placeholder="Enter user name here"></input>
+      <input type ="password" placeholder="Enter password"></input>
+      <p align="right"><button>Login</button></p>
+      </div>
+    </div>
+  )
+
+}
+export default App
+/*import React from 'react'
+import { useEffect, useState } from 'react'
+const App = () => {
+  const [name,setName]=useState("என் குடும்பம்")
+  useEffect(()=>{ //auto update when state change
+    document.title=`Hello! ${name}`
+  })
+  const dis=()=>{
+    setTimeout(()=>{
+    setName("💙Kiruthiga💜")
+    },3000)
+  }
+    const dis1=()=>{
+      setName("💙Nivethan💙")
+    }
+     const dis2=()=>{
+      setName("💝Madhurika💝")
+    }
+  
+  return (
+    <div>
+      <h1>UseEffect Hook</h1>
+      <button onClick={dis}>Change Name</button>
+      <button onClick={dis1}>Click</button>
+      <button onClick={dis2}>ChangeName</button>
+      <br></br>
+      {name}
+    </div>
+  )
+}
+
+export default App
+
+/*
+import React, { useState } from 'react' //sir sonnathu increasing button
+const App = () => {
+  const [val,setVal]=useState(0)
+  const dis=(event)=>{
+    setVal(parseInt(event.target.value)+1)
+  }
+  return (
+    <div>
+      <button onClick={dis} value={val}>you clicked : {val} times</button>
+    </div>
+  )
+}
+export default App
+
+/*
+import { useState } from "react" //ithu nana pottathu click pannuna increse agum
+function App()
+{
+  const[click,setClick]=useState(0)
+  const show=()=>{
+    setClick(click+1)
+  }
+  return(
+    <>
+  <button onClick={show}>clicked{click}</button>
+  </>
+  )
+}
+export default App
+/*
+import { useState } from "react"
+function App()
+{
   const[count,setCount]=useState(100)
   const show=(event)=>{
     if(event.target.id==="b1")
@@ -10,7 +140,7 @@ function App()
   if(event.target.id==="b3")
     setCount(count-5)
   }
-//const show2=()=>{
+//const show2=()=>{  
    // setCount(count-1)
   //}
   return(
